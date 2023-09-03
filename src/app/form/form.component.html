@@ -1,0 +1,110 @@
+<button style="margin: 20px 0" (click)="addItems()">Add Items</button>
+<form [formGroup]="form">
+  <table id="customers">
+    <tr>
+      <th>Item name</th>
+      <th>Qty</th>
+      <th>Amount</th>
+      <th>Discount</th>
+      <th>Total</th>
+      <th>Action</th>
+    </tr>
+    <ng-container formArrayName="formList">
+      <tr
+        [formGroupName]="i"
+        *ngFor="let item of formList.controls; let i = index"
+      >
+        <ng-container>
+          <td>
+            <input
+              type="text"
+              placeholder="Item name"
+              formControlName="name"
+              (keyup)="itemChange('name', i)"
+              (change)="changeValue('name', i)"
+            />
+            <p
+              style="color: red; margin: 5px 0"
+              *ngIf="
+                isInvalid(item, 'name') &&
+                (isDirty(item, 'name') || isTouched(item, 'name'))
+              "
+            >
+              Itam is required
+            </p>
+          </td>
+          <td>
+            <input
+              type="number"
+              placeholder="Qty"
+              formControlName="qty"
+              (keyup)="itemChange('qty', i)"
+              (change)="changeValue('qty', i)"
+            />
+            <p
+              style="color: red; margin: 5px 0"
+              *ngIf="
+                isInvalid(item, 'qty') &&
+                (isDirty(item, 'qty') || isTouched(item, 'qty'))
+              "
+            >
+              Qty is required
+            </p>
+          </td>
+          <td>
+            <input
+              type="number"
+              placeholder="Amount"
+              formControlName="amount"
+              (keyup)="itemChange('amount', i)"
+              (change)="changeValue('amount', i)"
+            />
+            <p
+              style="color: red; margin: 5px 0"
+              *ngIf="
+                isInvalid(item, 'amount') &&
+                (isDirty(item, 'amount') || isTouched(item, 'amount'))
+              "
+            >
+              Amount is required
+            </p>
+          </td>
+          <td>
+            <input
+              type="number"
+              placeholder="Discount"
+              formControlName="discount"
+              (keyup)="itemChange('discount', i)"
+              (change)="changeValue('discount', i)"
+            />
+            <p
+              style="color: red; margin: 5px 0"
+              *ngIf="
+                isInvalid(item, 'discount') &&
+                (isDirty(item, 'discount') || isTouched(item, 'discount'))
+              "
+            >
+              Discount is required
+            </p>
+          </td>
+          <td>
+            {{ item.value.total ? item.value.total : 0 }}
+          </td>
+          <td>
+            <button (click)="removeformItem(i)">Remove</button>
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>{{ this.totalItamList.amount }}</td>
+        <td>{{ this.totalItamList.discount }}</td>
+        <td>
+          {{ this.totalItamList.total ? this.totalItamList.total : 0 }}
+        </td>
+        <td></td>
+      </tr>
+    </ng-container>
+  </table>
+</form>
